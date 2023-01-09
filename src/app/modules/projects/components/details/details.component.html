@@ -1,0 +1,35 @@
+<ng-template [ngIf]="project">
+  <div class="details">
+    <h2>{{ this.project.subject }}</h2>
+
+    <div class="item">
+      <label>Дата начала:</label>
+      <span>{{ this.project.startDate }}</span>
+    </div>
+
+    <div class="item">
+      <label>Дата окончания:</label>
+      <span>{{ this.project.endDate }}</span>
+    </div>
+
+    <div class="item">
+      <label>Автор:</label>
+      <span>{{ this.project.createdBy }}</span>
+    </div>
+
+    <div class="item">
+      <label>Описание:</label>
+      <span>{{ this.project.description }}</span>
+    </div>
+
+    <div class="item">
+      <label>Стоимость:</label>
+      <span>{{ this.project.cost }}</span>
+    </div>
+
+    <div class="actions">
+      <button>Изменить</button>
+      <button (click)="handleDelete(this.project.id)">Удалить</button>
+    </div>
+  </div>
+</ng-template>

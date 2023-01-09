@@ -1,0 +1,13 @@
+.header {
+  padding: 0 2rem;
+  height: 4rem;
+  background-color: var(--background-color);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.active {
+  background-color: var(--active-link-color);
+}

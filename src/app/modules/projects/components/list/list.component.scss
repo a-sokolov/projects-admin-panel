@@ -1,0 +1,21 @@
+.link {
+  text-decoration: none;
+  color: #000;
+}
+
+.container {
+  min-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.item {
+  background-color: #808080ff;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+}
+
+.active {
+  background-color: var(--active-link-color);
+}

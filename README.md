@@ -10,7 +10,11 @@ npm install
 ```shell
 npm run dev
 ```
+Данные, для которых сервер сгенерит "ручки" хранятся в файле `./db.json`.
 - Перейти по ссылке http://localhost:4200/
+
+### Typescript config
+Добавлен флаг `strictPropertyInitialization: false`
 
 ## Packages
 - [`npm-run-all`](https://github.com/mysticatea/npm-run-all/blob/HEAD/docs/npm-run-all.md) - пакет для запуска скриптов в параллель

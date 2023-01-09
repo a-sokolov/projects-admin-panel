@@ -1,0 +1,14 @@
+.details * label {
+  font-weight: bold;
+}
+
+.item {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.actions {
+  margin-top: 2rem;
+  display: flex;
+  gap: 0.5rem;
+}

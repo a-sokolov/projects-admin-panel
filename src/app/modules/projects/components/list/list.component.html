@@ -1,0 +1,13 @@
+<section class="container">
+  <button>Добавить</button>
+
+  <div *ngFor="let project of projects">
+    <a [routerLink]="['/projects', project.id]" routerLinkActive #rla="routerLinkActive" class="link">
+      <div [classList]="rla.isActive ? 'active item' : 'item'">
+        <span>{{ project.startDate }} - {{ project.endDate }}</span>
+        <h3>{{ project.subject }}</h3>
+        <p>{{ project.createdBy }}</p>
+      </div>
+    </a>
+  </div>
+</section>
