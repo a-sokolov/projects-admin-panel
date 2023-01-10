@@ -16,9 +16,6 @@ npm run dev
 ### Design system
 В качестве библиотеки компонентов используется [`Taiga-UI`](https://taiga-ui.dev/)
 
-### Typescript config
-Добавлен флаг `strictPropertyInitialization: false`
-
 ## Packages
 - [`npm-run-all`](https://github.com/mysticatea/npm-run-all/blob/HEAD/docs/npm-run-all.md) - пакет для запуска скриптов в параллель
 - [`prettier`](https://prettier.io) - для форматирования исходного кода
