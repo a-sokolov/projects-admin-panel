@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { tap } from 'rxjs';
+import { Observable, tap } from 'rxjs';
 
-import type { Project } from '../models';
+import type { Project } from '../models/project.model';
 
 import { PROJECTS_ENDPOINT } from './constants';
 import type { ProjectDto } from './dto/project.dto';
@@ -11,6 +11,15 @@ import type { ProjectDto } from './dto/project.dto';
   providedIn: 'root',
 })
 export class ProjectsService {
+  /**
+   * TODO: непонятно, как правильно работать с "ручками", когда нужно делать CRUD.
+   * Имеется ввиду, что после удаления/добавления/редактирования разные практики
+   * обновления данных локально:
+   * - перечитывать с сервера, т.к. они могил в теории поменяться
+   * - синхронизировать с локальной копией (текущий вариант)
+   *
+   * Не получилось "красиво" подвязать чтение данных на роутинг (((
+   */
   projects: Project[];
 
   constructor(private http: HttpClient) {}
@@ -18,17 +27,19 @@ export class ProjectsService {
   /**
    * Получение списка всех проектов
    * */
-  getAll() {
-    return this.http.get<Project[]>(PROJECTS_ENDPOINT).subscribe((projects) => {
-      this.projects = projects;
-    });
+  getAll(): Observable<Project[]> {
+    return this.http.get<Project[]>(PROJECTS_ENDPOINT).pipe(
+      tap((projects) => {
+        this.projects = projects;
+      }),
+    );
   }
 
   /**
    * Чтение проекта по идентификатору записи
    * @param id идентификатор записи
    * */
-  getById(id: string) {
+  getById(id: string): Observable<Project> {
     return this.http.get<Project>(`${PROJECTS_ENDPOINT}/${id}`);
   }
 
@@ -36,7 +47,7 @@ export class ProjectsService {
    * Удаление проекта по идентификатору записи
    * @param id идентификатор записи
    * */
-  delete(id: string) {
+  delete(id: string): Observable<Object> {
     return this.http.delete(`${PROJECTS_ENDPOINT}/${id}`).pipe(
       tap(() => {
         this.projects = this.projects.filter((project) => project.id !== id);
@@ -48,7 +59,7 @@ export class ProjectsService {
    * Создание нового проекта
    * @param dto данные с формы
    * */
-  create(dto: ProjectDto) {
+  create(dto: ProjectDto): Observable<Project> {
     return this.http.post<Project>(PROJECTS_ENDPOINT, dto).pipe(
       tap((project) => {
         this.projects.push(project);
@@ -61,7 +72,7 @@ export class ProjectsService {
    * @param id идентификатор записи
    * @param dto данные с формы
    * */
-  update(id: string, dto: ProjectDto) {
+  update(id: string, dto: ProjectDto): Observable<Project> {
     return this.http.put<Project>(`${PROJECTS_ENDPOINT}/${id}`, dto).pipe(
       tap((project) => {
         this.projects = this.projects.map((item) => {

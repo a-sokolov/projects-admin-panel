@@ -1,12 +1,12 @@
 <header class="header">
   <a
-    *ngFor="let link of links | keyvalue"
+    *ngFor="let link of links"
     tuiLink
     tuiMode="onDark"
     routerLinkActive
     #rla="routerLinkActive"
     [mode]="rla.isActive ? 'positive' : null"
-    [routerLink]="link.key"
-    >{{ link.value }}</a
+    [routerLink]="['/', link]"
+    >{{ link | titlecase }}</a
   >
 </header>

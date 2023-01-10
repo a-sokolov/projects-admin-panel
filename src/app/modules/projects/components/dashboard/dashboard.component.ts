@@ -6,6 +6,8 @@ import type { Subscription } from 'rxjs';
 
 import type { ProjectDto } from '@src/app/services/dto/project.dto';
 import { ProjectsService } from '@src/app/services/projects.service';
+import { unsubscribeAll } from '@src/app/utils/unsubsribeAll';
+import { PROJECTS_PATH } from '@src/app/constants';
 
 import { EditFormComponent } from '../edit-form/edit-form.component';
 
@@ -38,28 +40,26 @@ export class DashboardComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this.serviceSubscription = this.projectsServices.getAll();
+    this.serviceSubscription = this.projectsServices.getAll().subscribe();
   }
 
   ngOnDestroy(): void {
-    if (this.serviceSubscription) {
-      this.serviceSubscription.unsubscribe();
-    }
-
-    if (this.dialogSubscription) {
-      this.dialogSubscription.unsubscribe();
-    }
+    unsubscribeAll(this.serviceSubscription, this.dialogSubscription);
   }
 
-  add() {
+  add(): void {
     this.dialogSubscription = this.dialog.subscribe({
       next: (dto) => {
         this.projectsServices.create(dto).subscribe(({ subject, id }) => {
-          this.router.navigate(['projects', id]).then(() => {
+          this.router.navigate([PROJECTS_PATH, id]).then(() => {
             this.alertService.open(`Создан проект "${subject}!"`, { status: TuiNotification.Info }).subscribe();
           });
         });
       },
     });
+  }
+
+  get hasItems(): boolean {
+    return !!this.projectsServices.projects?.length;
   }
 }

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { HOME_PATH, PROJECTS_PATH } from '@src/app/constants';
 
 @Component({
   selector: 'app-header',
@@ -6,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
-  links: Record<string, string> = { '/home': 'Home', '/projects': 'Projects' };
+  links: string[] = [HOME_PATH, PROJECTS_PATH];
 }

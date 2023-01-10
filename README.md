@@ -13,6 +13,9 @@ npm run dev
 Данные, для которых сервер сгенерит "ручки" хранятся в файле `./db.json`.
 - Перейти по ссылке http://localhost:4200/
 
+### Design system
+В качестве библиотеки компонентов используется [`Taiga-UI`](https://taiga-ui.dev/)
+
 ### Typescript config
 Добавлен флаг `strictPropertyInitialization: false`
 

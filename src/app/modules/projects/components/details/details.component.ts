@@ -4,10 +4,13 @@ import { map, type Subscription, switchMap } from 'rxjs';
 import { TuiAlertService, TuiDialogContext, TuiDialogService, TuiNotification } from '@taiga-ui/core';
 import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
 
-import type { Project } from '@src/app/models';
+import type { Project } from '@src/app/models/project.model';
 import type { ProjectDto } from '@src/app/services/dto/project.dto';
 import { ProjectsService } from '@src/app/services/projects.service';
+import { unsubscribeAll } from '@src/app/utils/unsubsribeAll';
+import { PROJECTS_PATH } from '@src/app/constants';
 
+import { generateItemId } from '../../utils/generateItemId';
 import { EditFormComponent } from '../edit-form/edit-form.component';
 
 @Component({
@@ -40,7 +43,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
         switchMap((id) => this.projectsService.getById(id)),
       )
       .subscribe((project) => {
-        const el = document.getElementById(`project-${project.id}`);
+        const el = document.getElementById(generateItemId(project.id));
         if (el) {
           setTimeout(() => {
             el.scrollIntoView({
@@ -54,14 +57,10 @@ export class DetailsComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    [this.projectSubscription, this.projectSubscription, this.dialogSubscription].forEach((subscription) => {
-      if (subscription) {
-        subscription.unsubscribe();
-      }
-    });
+    unsubscribeAll(this.projectSubscription, this.projectSubscription, this.dialogSubscription);
   }
 
-  edit() {
+  edit(): void {
     if (!this.project) {
       return;
     }
@@ -95,7 +94,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
     this.confirmSubscription = this.dialogService.open(content, { dismissible: true }).subscribe();
   }
 
-  delete() {
+  delete(): void {
     if (this.confirmSubscription) {
       this.confirmSubscription.unsubscribe();
     }
@@ -106,7 +105,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
 
     this.projectsService.delete(this.project.id).subscribe(() => {
       const { projects } = this.projectsService;
-      const commands = projects.length > 0 ? ['projects', projects[0].id] : ['projects'];
+      const commands = projects.length > 0 ? [PROJECTS_PATH, projects[0].id] : [PROJECTS_PATH];
 
       this.router.navigate(commands).then(() => {
         this.alertService

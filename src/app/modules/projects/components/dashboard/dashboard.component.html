@@ -1,8 +1,8 @@
 <section class="dashboard">
-  <div class="wrapper">
+  <aside class="aside">
     <button tuiButton size="m" appearance="primary" (click)="add()">Добавить</button>
 
-    <ng-template [ngIf]="this.projectsServices.projects.length === 0">
+    <ng-template [ngIf]="!hasItems">
       <div class="stub-item">
         <p class="tui-text_body-xl">Добавьте запись!</p>
       </div>
@@ -11,7 +11,7 @@
     <div class="list" #listRef>
       <app-list [projects]="this.projectsServices.projects"></app-list>
     </div>
-  </div>
+  </aside>
 
   <div class="details">
     <router-outlet></router-outlet>

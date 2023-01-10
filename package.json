@@ -1,7 +1,7 @@
 {
   "name": "projects-admin-panel",
   "description": "Админ-панель для абстрактных проектов (тестовое задание для TBN-SOFT)",
-  "version": "1.0.0-alpha",
+  "version": "1.0.0",
   "author": "a.sokolov.store@gmail.com",
   "scripts": {
     "dev": "npm-run-all --parallel server start",
@@ -9,8 +9,7 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
-    "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "watch": "ng build --watch --configuration development"
   },
   "private": true,
   "dependencies": {

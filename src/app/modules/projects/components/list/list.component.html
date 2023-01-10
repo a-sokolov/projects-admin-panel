@@ -1,8 +1,8 @@
 <section class="container">
   <div *ngFor="let project of projects">
     <a
-      [id]="'project-' + project.id"
-      [routerLink]="['/projects', project.id]"
+      [id]="generateItemId(project.id)"
+      [routerLink]="['/', projectsPath, project.id]"
       routerLinkActive
       #rla="routerLinkActive"
       class="link"

@@ -14,6 +14,7 @@ import type { ProjectDto } from '@src/app/services/dto/project.dto';
 })
 export class EditFormComponent implements OnInit {
   min = new TuiDay(2000, 1, 1);
+
   max = TuiDay.currentLocal();
 
   form = new FormGroup({
@@ -46,10 +47,6 @@ export class EditFormComponent implements OnInit {
     return this.form.valid;
   }
 
-  get data() {
-    return this.context.data;
-  }
-
   submit(): void {
     if (this.form.valid) {
       const { startDate, endDate, ...rest } = this.form.value;
@@ -60,6 +57,7 @@ export class EditFormComponent implements OnInit {
         startDate: startDate?.toUtcNativeDate().toISOString(),
         endDate: endDate?.toUtcNativeDate().toISOString(),
       };
+
       this.context.completeWith(dto as ProjectDto);
     }
   }
