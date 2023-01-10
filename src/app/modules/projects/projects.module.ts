@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { TuiButtonModule, TuiErrorModule, TuiFormatDatePipeModule } from '@taiga-ui/core';
+import { TuiButtonModule, TuiErrorModule, TuiFormatDatePipeModule, TuiSvgModule } from '@taiga-ui/core';
 import { TuiFieldErrorPipeModule, TuiInputDateModule, TuiInputModule, TuiInputNumberModule } from '@taiga-ui/kit';
 import { TuiAutoFocusModule } from '@taiga-ui/cdk';
 
@@ -28,6 +28,7 @@ import { EditFormComponent } from './components/edit-form/edit-form.component';
     TuiFieldErrorPipeModule,
     TuiInputNumberModule,
     TuiAutoFocusModule,
+    TuiSvgModule,
   ],
 })
 export class ProjectsModule {}

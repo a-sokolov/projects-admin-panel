@@ -1,6 +1,14 @@
 <section class="dashboard">
   <aside class="aside">
-    <button tuiButton size="m" appearance="primary" (click)="add()">Добавить</button>
+    <button
+      icon="tuiIconPlusCircleLarge"
+      tuiButton
+      size="l"
+      appearance="primary"
+      (click)="this.editProjectService.add()"
+    >
+      Добавить
+    </button>
 
     <ng-template [ngIf]="!hasItems">
       <div class="stub-item">
@@ -8,8 +16,8 @@
       </div>
     </ng-template>
 
-    <div class="list" #listRef>
-      <app-list [projects]="this.projectsServices.projects"></app-list>
+    <div class="list">
+      <app-list [projects]="this.projectsService.projects"></app-list>
     </div>
   </aside>
 

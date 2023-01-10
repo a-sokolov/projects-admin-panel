@@ -7,7 +7,7 @@
       #rla="routerLinkActive"
       class="link"
     >
-      <div [classList]="rla.isActive ? 'active item' : 'item'">
+      <div [ngClass]="{ active: rla.isActive, item: true }">
         <span class="tui-text_body-s">{{ project.startDate | parseDate }} - {{ project.endDate | parseDate }}</span>
         <h1 class="tui-text_h6">{{ project.subject }}</h1>
         <p class="tui-text_body-m">{{ project.createdBy }}</p>

@@ -7,5 +7,5 @@ import { HOME_PATH, PROJECTS_PATH } from '@src/app/constants';
   styleUrls: ['./header.component.scss'],
 })
 export class HeaderComponent {
-  links: string[] = [HOME_PATH, PROJECTS_PATH];
+  links: Record<string, string> = { [HOME_PATH]: 'tuiIconSettings', [PROJECTS_PATH]: 'tuiIconChartBar' };
 }

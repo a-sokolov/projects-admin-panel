@@ -15,8 +15,26 @@
   font-weight: bold;
 }
 
+.item > span {
+  font: var(--tui-font-text-m);
+}
+
 .actions {
   margin-top: 2rem;
   display: flex;
-  gap: 0.5rem;
+  gap: 1rem;
+}
+
+.confirm-dialog > button {
+  margin-top: 1rem;
+}
+
+.confirm-dialog > h2 {
+  margin: 0 0 0.75rem 0;
+}
+
+.title {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
 }

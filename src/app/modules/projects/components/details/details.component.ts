@@ -1,17 +1,16 @@
-import { Component, Inject, Injector, type OnDestroy, type OnInit, TemplateRef } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { map, type Subscription, switchMap } from 'rxjs';
-import { TuiAlertService, TuiDialogContext, TuiDialogService, TuiNotification } from '@taiga-ui/core';
-import { PolymorpheusComponent } from '@tinkoff/ng-polymorpheus';
+import { Component, Inject, type OnDestroy, type OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { DomSanitizer } from '@angular/platform-browser';
+import { TuiAlertService, TuiNotification } from '@taiga-ui/core';
+import { tuiIconTransparentLarge } from '@taiga-ui/icons';
+import { catchError, EMPTY, map, type Subscription, switchMap } from 'rxjs';
 
 import type { Project } from '@src/app/models/project.model';
-import type { ProjectDto } from '@src/app/services/dto/project.dto';
 import { ProjectsService } from '@src/app/services/projects.service';
 import { unsubscribeAll } from '@src/app/utils/unsubsribeAll';
-import { PROJECTS_PATH } from '@src/app/constants';
 
-import { generateItemId } from '../../utils/generateItemId';
-import { EditFormComponent } from '../edit-form/edit-form.component';
+import { EditProjectService } from '../../services/edit-project.service';
+import { scrollToProjectElement } from '../../utils/scrollToProjectElement';
 
 @Component({
   selector: 'app-details',
@@ -23,95 +22,58 @@ export class DetailsComponent implements OnInit, OnDestroy {
 
   private projectSubscription?: Subscription;
 
-  private dialogSubscription?: Subscription;
-
-  private confirmSubscription?: Subscription;
+  readonly tuiIconTransparentLarge = this.sanitizer.bypassSecurityTrustHtml(tuiIconTransparentLarge);
 
   constructor(
     private route: ActivatedRoute,
-    private router: Router,
-    private projectsService: ProjectsService,
+    public projectsService: ProjectsService,
+    public editProjectService: EditProjectService,
+    @Inject(DomSanitizer) private readonly sanitizer: DomSanitizer,
     @Inject(TuiAlertService) private readonly alertService: TuiAlertService,
-    @Inject(TuiDialogService) private readonly dialogService: TuiDialogService,
-    @Inject(Injector) private readonly injector: Injector,
   ) {}
 
   ngOnInit(): void {
     this.projectSubscription = this.route.params
       .pipe(
-        map((p) => p['id']),
-        switchMap((id) => this.projectsService.getById(id)),
+        map((params) => params['id']),
+        switchMap((id) =>
+          this.projectsService.getById(id).pipe(
+            catchError((error) => {
+              this.alertService
+                .open(`Ошибка чтения данных: ${error.message}`, { status: TuiNotification.Error })
+                .subscribe();
+
+              return EMPTY;
+            }),
+          ),
+        ),
       )
       .subscribe((project) => {
-        const el = document.getElementById(generateItemId(project.id));
-        if (el) {
-          setTimeout(() => {
-            el.scrollIntoView({
-              behavior: 'smooth',
-              block: 'start',
-            });
-          }, 0);
-        }
+        scrollToProjectElement(project);
+
         this.project = project;
       });
   }
 
   ngOnDestroy(): void {
-    unsubscribeAll(this.projectSubscription, this.projectSubscription, this.dialogSubscription);
+    unsubscribeAll(this.projectSubscription, this.projectSubscription);
   }
 
-  edit(): void {
+  delete() {
     if (!this.project) {
       return;
     }
 
-    const dialog = this.dialogService.open<ProjectDto>(new PolymorpheusComponent(EditFormComponent, this.injector), {
-      data: this.project,
-      dismissible: true,
-      label: this.project.subject,
-    });
-
-    if (this.dialogSubscription) {
-      this.dialogSubscription.unsubscribe();
-    }
-
-    this.dialogSubscription = dialog.subscribe({
-      next: (dto) => {
-        if (this.project) {
-          this.projectsService.update(this.project.id, dto).subscribe((data) => {
-            this.project = data;
-
-            this.alertService
-              .open(`Проект "${this.project?.subject}" был изменен!`, { status: TuiNotification.Warning })
-              .subscribe();
-          });
-        }
-      },
-    });
+    this.editProjectService.delete(this.project);
   }
 
-  confirmDelete(content: TemplateRef<TuiDialogContext<void>>): void {
-    this.confirmSubscription = this.dialogService.open(content, { dismissible: true }).subscribe();
-  }
-
-  delete(): void {
-    if (this.confirmSubscription) {
-      this.confirmSubscription.unsubscribe();
-    }
-
-    if (!this.project?.id) {
+  edit() {
+    if (!this.project) {
       return;
     }
 
-    this.projectsService.delete(this.project.id).subscribe(() => {
-      const { projects } = this.projectsService;
-      const commands = projects.length > 0 ? [PROJECTS_PATH, projects[0].id] : [PROJECTS_PATH];
-
-      this.router.navigate(commands).then(() => {
-        this.alertService
-          .open(`Проект "${this.project?.subject}" удален!`, { status: TuiNotification.Warning })
-          .subscribe();
-      });
+    this.editProjectService.edit(this.project).subscribe((project) => {
+      this.project = project;
     });
   }
 }

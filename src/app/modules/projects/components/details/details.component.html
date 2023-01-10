@@ -1,5 +1,8 @@
 <ng-template [ngIf]="project">
-  <h1 class="tui-text_h5">{{ this.project.subject }}</h1>
+  <div class="title">
+    <tui-svg [src]="tuiIconTransparentLarge"></tui-svg>
+    <h1 class="tui-text_h5">{{ this.project.subject }}</h1>
+  </div>
 
   <div class="details">
     <div class="item">
@@ -28,17 +31,28 @@
     </div>
 
     <div class="actions">
-      <button tuiButton size="m" appearance="secondary" (click)="edit()">Изменить</button>
-      <button tuiButton size="m" appearance="accent" (click)="confirmDelete(confirm)">Удалить</button>
+      <button icon="tuiIconEditLarge" tuiButton size="l" appearance="secondary" (click)="edit()">Изменить</button>
+      <button
+        icon="tuiIconTrashLarge"
+        tuiButton
+        size="l"
+        appearance="accent"
+        (click)="this.editProjectService.confirmDelete(confirm)"
+      >
+        Удалить
+      </button>
     </div>
   </div>
 </ng-template>
 
 <ng-template #confirm>
-  <div class="dialog">
+  <div class="confirm-dialog">
+    <h2 class="tui-text_h5">Удаление записи</h2>
+
     <p>
       Вы уверены что хотите удалить запись <b>"{{ this.project?.subject }}"</b>?
     </p>
-    <button tuiButton size="m" appearance="accent" (click)="delete()">Продолжить</button>
+
+    <button icon="tuiIconTrashLarge" tuiButton size="l" appearance="accent" (click)="delete()">Продолжить</button>
   </div>
 </ng-template>

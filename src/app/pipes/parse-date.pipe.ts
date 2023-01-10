@@ -5,7 +5,7 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'parseDate',
 })
 export class ParseDatePipe implements PipeTransform {
-  transform(value: string, ...args: string[]): string {
-    return formatDate(value, args[0] ?? 'dd MMMM yyyy', 'ru');
+  transform(value: string, format?: string, ...args: string[]): string {
+    return formatDate(value, format ?? 'dd MMMM yyyy', 'ru');
   }
 }

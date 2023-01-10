@@ -44,7 +44,7 @@ export class EditFormComponent implements OnInit {
   }
 
   get isValid(): boolean {
-    return this.form.valid;
+    return this.form.valid && this.form.touched && this.form.dirty;
   }
 
   submit(): void {

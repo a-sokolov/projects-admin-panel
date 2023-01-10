@@ -20,7 +20,7 @@ export class ProjectsService {
    *
    * Не получилось "красиво" подвязать чтение данных на роутинг (((
    */
-  projects: Project[];
+  projects: Project[] = [];
 
   constructor(private http: HttpClient) {}
 
