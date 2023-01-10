@@ -28,7 +28,7 @@ export class ProjectsService {
    * Чтение проекта по идентификатору записи
    * @param id идентификатор записи
    * */
-  getById(id: number) {
+  getById(id: string) {
     return this.http.get<Project>(`${PROJECTS_ENDPOINT}/${id}`);
   }
 
@@ -36,7 +36,7 @@ export class ProjectsService {
    * Удаление проекта по идентификатору записи
    * @param id идентификатор записи
    * */
-  delete(id: number) {
+  delete(id: string) {
     return this.http.delete(`${PROJECTS_ENDPOINT}/${id}`).pipe(
       tap(() => {
         this.projects = this.projects.filter((project) => project.id !== id);
@@ -49,7 +49,11 @@ export class ProjectsService {
    * @param dto данные с формы
    * */
   create(dto: ProjectDto) {
-    return this.http.post<Project>(PROJECTS_ENDPOINT, dto);
+    return this.http.post<Project>(PROJECTS_ENDPOINT, dto).pipe(
+      tap((project) => {
+        this.projects.push(project);
+      }),
+    );
   }
 
   /**
@@ -57,7 +61,17 @@ export class ProjectsService {
    * @param id идентификатор записи
    * @param dto данные с формы
    * */
-  update(id: number, dto: ProjectDto) {
-    return this.http.post<Project>(`${PROJECTS_ENDPOINT}/${id}`, dto);
+  update(id: string, dto: ProjectDto) {
+    return this.http.put<Project>(`${PROJECTS_ENDPOINT}/${id}`, dto).pipe(
+      tap((project) => {
+        this.projects = this.projects.map((item) => {
+          if (item.id === id) {
+            return project;
+          }
+
+          return item;
+        });
+      }),
+    );
   }
 }

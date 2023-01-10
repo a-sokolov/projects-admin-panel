@@ -1,0 +1,51 @@
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <div class="tui-form__row">
+    <tui-input formControlName="subject" tuiAutoFocus>
+      Наименование
+      <span class="tui-required"></span>
+    </tui-input>
+  </div>
+
+  <div class="tui-form__row">
+    <tui-input formControlName="description">
+      Описание
+      <span class="tui-required"></span>
+    </tui-input>
+  </div>
+
+  <div class="tui-form__row">
+    <tui-input formControlName="createdBy">
+      Автор
+      <span class="tui-required"></span>
+    </tui-input>
+  </div>
+
+  <div class="tui-form__row tui-form__row_multi-fields">
+    <div class="tui-form__multi-field">
+      <tui-input-date formControlName="startDate" [min]="min" [max]="this.form.value.endDate || max">
+        Дата начала
+        <span class="tui-required"></span>
+      </tui-input-date>
+      <tui-error formControlName="startDate" [error]="[] | tuiFieldError | async"></tui-error>
+    </div>
+
+    <div class="tui-form__multi-field">
+      <tui-input-date formControlName="endDate" [min]="this.form.value.startDate || min">
+        Дата окончания
+        <span class="tui-required"></span>
+      </tui-input-date>
+      <tui-error formControlName="endDate" [error]="[] | tuiFieldError | async"></tui-error>
+    </div>
+  </div>
+
+  <div class="tui-form__row">
+    <tui-input-number formControlName="cost" [postfix]="'RUB'"
+      >Стоимость <span class="tui-required"></span
+    ></tui-input-number>
+    <tui-error formControlName="cost" [error]="[] | tuiFieldError | async"></tui-error>
+  </div>
+
+  <div class="tui-form__buttons">
+    <button tuiButton type="submit" size="l" [disabled]="!isValid">Сохранить</button>
+  </div>
+</form>

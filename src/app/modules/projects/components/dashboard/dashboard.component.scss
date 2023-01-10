@@ -1,5 +1,35 @@
 .dashboard {
+  position: relative;
   display: flex;
   flex-direction: row;
+  height: 100%;
+  gap: 2rem;
+  overflow: hidden;
+}
+
+.wrapper {
+  width: 400px;
+  min-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
   gap: 0.5rem;
+  overflow: auto;
+}
+
+.details {
+  position: sticky;
+  padding-top: 2rem;
+}
+
+.stub-item {
+  background-color: var(--tui-clear);
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  text-align: center;
 }

@@ -1,4 +1,12 @@
 <header class="header">
-  <button routerLinkActive="active" routerLink="/home">Home</button>
-  <button routerLinkActive="active" routerLink="/projects">Projects</button>
+  <a
+    *ngFor="let link of links | keyvalue"
+    tuiLink
+    tuiMode="onDark"
+    routerLinkActive
+    #rla="routerLinkActive"
+    [mode]="rla.isActive ? 'positive' : null"
+    [routerLink]="link.key"
+    >{{ link.value }}</a
+  >
 </header>

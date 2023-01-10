@@ -1,10 +1,18 @@
-.details * label {
-  font-weight: bold;
+.details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .item {
   display: flex;
+  align-items: center;
   gap: 0.5rem;
+}
+
+.item > label {
+  font: var(--tui-font-text-m);
+  font-weight: bold;
 }
 
 .actions {

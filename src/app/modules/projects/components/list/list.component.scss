@@ -4,18 +4,17 @@
 }
 
 .container {
-  min-width: 400px;
   display: flex;
   flex-direction: column;
   gap: 0.5rem;
 }
 
 .item {
-  background-color: #808080ff;
+  background-color: var(--tui-clear);
   padding: 0.5rem 1rem;
   border-radius: 0.5rem;
 }
 
 .active {
-  background-color: var(--active-link-color);
+  background-color: var(--tui-focus);
 }

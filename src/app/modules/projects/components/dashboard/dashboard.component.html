@@ -1,5 +1,19 @@
 <section class="dashboard">
-  <app-list [projects]="this.projectsServices.projects"></app-list>
+  <div class="wrapper">
+    <button tuiButton size="m" appearance="primary" (click)="add()">Добавить</button>
 
-  <router-outlet></router-outlet>
+    <ng-template [ngIf]="this.projectsServices.projects.length === 0">
+      <div class="stub-item">
+        <p class="tui-text_body-xl">Добавьте запись!</p>
+      </div>
+    </ng-template>
+
+    <div class="list" #listRef>
+      <app-list [projects]="this.projectsServices.projects"></app-list>
+    </div>
+  </div>
+
+  <div class="details">
+    <router-outlet></router-outlet>
+  </div>
 </section>

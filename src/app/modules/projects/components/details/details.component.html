@@ -1,15 +1,15 @@
 <ng-template [ngIf]="project">
-  <div class="details">
-    <h2>{{ this.project.subject }}</h2>
+  <h1 class="tui-text_h5">{{ this.project.subject }}</h1>
 
+  <div class="details">
     <div class="item">
       <label>Дата начала:</label>
-      <span>{{ this.project.startDate }}</span>
+      <span>{{ this.project.startDate | parseDate : 'dd.MM.yyyy' }}</span>
     </div>
 
     <div class="item">
       <label>Дата окончания:</label>
-      <span>{{ this.project.endDate }}</span>
+      <span>{{ this.project.endDate | parseDate : 'dd.MM.yyyy' }}</span>
     </div>
 
     <div class="item">
@@ -24,12 +24,21 @@
 
     <div class="item">
       <label>Стоимость:</label>
-      <span>{{ this.project.cost }}</span>
+      <span>{{ this.project.cost | currency : 'RUB ' }}</span>
     </div>
 
     <div class="actions">
-      <button>Изменить</button>
-      <button (click)="handleDelete(this.project.id)">Удалить</button>
+      <button tuiButton size="m" appearance="secondary" (click)="edit()">Изменить</button>
+      <button tuiButton size="m" appearance="accent" (click)="confirmDelete(confirm)">Удалить</button>
     </div>
+  </div>
+</ng-template>
+
+<ng-template #confirm>
+  <div class="dialog">
+    <p>
+      Вы уверены что хотите удалить запись <b>"{{ this.project?.subject }}"</b>?
+    </p>
+    <button tuiButton size="m" appearance="accent" (click)="delete()">Продолжить</button>
   </div>
 </ng-template>

@@ -1,16 +1,11 @@
 .footer {
-  position: fixed;
-  bottom: 0;
-  right: 0;
+  position: absolute;
   left: 0;
+  right: 0;
+  bottom: 0;
   display: flex;
   justify-content: center;
   align-items: center;
   height: 4rem;
-  background-color: var(--background-color);
-}
-
-.link {
-  text-decoration: none;
-  color: var(--text-color);
+  background-color: var(--tui-base-08);
 }
